@@ -1,13 +1,12 @@
+// src/index.js
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
+import './App.css';
 import App from './App';
-import './index.css';
-import 'react-toastify/dist/ReactToastify.css'; // Import react-toastify CSS
 
 ReactDOM.render(
-  <Router>
+  <React.StrictMode>
     <App />
-  </Router>,
+  </React.StrictMode>,
   document.getElementById('root')
 );

@@ -1,41 +1,45 @@
+// src/components/ProductItem.js
 import React, { useState } from 'react';
-
-const priceOptions = {
-  3: 30,
-  5: 47,
-  20: 190,
-  50: 450,
-  100: 870,
-  300: 2500,
-  500: 4000,
-  1000: 7800
-};
+import { Card, CardContent, Typography, Button, Select, MenuItem, CardActions } from '@mui/material';
 
 const ProductItem = ({ product, addToCart }) => {
-  const [quantity, setQuantity] = useState(3);
+  const [selectedOption, setSelectedOption] = useState(product.options[0]);
 
   const handleAddToCart = () => {
-    const price = priceOptions[quantity];
-    addToCart({ ...product, price }, quantity);
+    addToCart(product, selectedOption);
   };
 
   return (
-    <div className="product-item">
-      <h3>{product.name}</h3>
-      <p>{product.description}</p>
-      <select value={quantity} onChange={(e) => setQuantity(Number(e.target.value))}>
-        <option value={3}>3</option>
-        <option value={5}>5</option>
-        <option value={20}>20</option>
-        <option value={50}>50</option>
-        <option value={100}>100</option>
-        <option value={300}>300</option>
-        <option value={500}>500</option>
-        <option value={1000}>1000</option>
-      </select>
-      <p>Price: {priceOptions[quantity]} USDT</p>
-      <button onClick={handleAddToCart}>Add to Cart</button>
-    </div>
+    <Card sx={{ maxWidth: 345, margin: 2, boxShadow: 3 }}>
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {product.name}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Price: ${selectedOption.price} USDT for {selectedOption.quantity} units
+        </Typography>
+        <Select
+          value={selectedOption.quantity}
+          onChange={(e) => {
+            const option = product.options.find(opt => opt.quantity === e.target.value);
+            setSelectedOption(option);
+          }}
+          fullWidth
+          sx={{ marginTop: 2, marginBottom: 2 }}
+        >
+          {product.options.map((option) => (
+            <MenuItem key={option.quantity} value={option.quantity}>
+              {option.quantity} units - ${option.price} USDT
+            </MenuItem>
+          ))}
+        </Select>
+      </CardContent>
+      <CardActions>
+        <Button variant="contained" color="primary" onClick={handleAddToCart} fullWidth>
+          Add to Cart
+        </Button>
+      </CardActions>
+    </Card>
   );
 };
 

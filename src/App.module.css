@@ -1,8 +1,10 @@
-body {
+.body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f8f9fa; /* Используем базовый цвет вместо изображения */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 nav {
@@ -10,7 +12,7 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: rgba(52, 58, 64, 0.8); /* Полупрозрачный фон */
+  background-color: rgba(52, 58, 64, 0.8); /* Semi-transparent background */
   color: #ffffff;
 }
 
@@ -29,7 +31,7 @@ nav a:hover {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  background-color: rgba(255, 255, 255, 0.8); /* Полупрозрачный фон */
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
   border-radius: 10px;
 }
 

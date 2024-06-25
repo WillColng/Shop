@@ -1,41 +1,74 @@
+// src/App.js
 import React, { useState } from 'react';
-import { Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import CartPage from './pages/CartPage';
-import './App.css';
-import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
+import NavBar from './components/NavBar';
+import Footer from './components/Footer';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
-  const [cart, setCart] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
 
-  const addToCart = (product, quantity) => {
-    const existingProduct = cart.find(item => item.id === product.id);
-    if (existingProduct) {
-      setCart(cart.map(item =>
-        item.id === product.id ? { ...item, quantity: item.quantity + quantity, price: item.price + product.price } : item
+  const addToCart = (product, option) => {
+    const existingItem = cartItems.find((item) => item.id === product.id && item.option.quantity === option.quantity);
+    if (existingItem) {
+      setCartItems(cartItems.map((item) =>
+        item.id === product.id && item.option.quantity === option.quantity
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
       ));
     } else {
-      setCart([...cart, { ...product, quantity }]);
+      setCartItems([...cartItems, { ...product, option, quantity: 1 }]);
     }
-    toast.success(`${product.name} added to cart!`);
+    toast.success('Product added to cart!');
   };
 
-  const removeFromCart = (productId) => {
-    setCart(cart.filter(item => item.id !== productId));
+  const incrementQuantity = (productId, optionQuantity) => {
+    setCartItems(cartItems.map((item) =>
+      item.id === productId && item.option.quantity === optionQuantity
+        ? { ...item, quantity: item.quantity + 1 }
+        : item
+    ));
   };
+
+  const decrementQuantity = (productId, optionQuantity) => {
+    setCartItems(cartItems.map((item) =>
+      item.id === productId && item.option.quantity === optionQuantity && item.quantity > 1
+        ? { ...item, quantity: item.quantity - 1 }
+        : item
+    ));
+  };
+
+  const removeFromCart = (productId, optionQuantity) => {
+    setCartItems(cartItems.filter((item) => !(item.id === productId && item.option.quantity === optionQuantity)));
+  };
+
+  const cartItemsCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <div>
-      <nav>
-        <Link to="/">Home</Link>
-        <Link to="/cart">Cart ({cart.length})</Link>
-      </nav>
-      <Routes>
-        <Route path="/" element={<HomePage addToCart={addToCart} />} />
-        <Route path="/cart" element={<CartPage cart={cart} removeFromCart={removeFromCart} />} />
-      </Routes>
-      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
-    </div>
+    <Router>
+      <div className="App">
+        <ToastContainer />
+        <NavBar cartItemsCount={cartItemsCount} />
+        <Routes>
+          <Route path="/" element={<HomePage addToCart={addToCart} />} />
+          <Route
+            path="/cart"
+            element={
+              <CartPage
+                cartItems={cartItems}
+                incrementQuantity={incrementQuantity}
+                decrementQuantity={decrementQuantity}
+                removeFromCart={removeFromCart}
+              />
+            }
+          />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
   );
 };
 
