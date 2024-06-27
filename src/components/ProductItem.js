@@ -16,7 +16,7 @@ const ProductItem = ({ product, addToCart }) => {
           {product.name}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Price: ${selectedOption.price} USDT for {selectedOption.quantity} units
+          Price: ${selectedOption.price} USDT for {selectedOption.quantity} referrals
         </Typography>
         <Select
           value={selectedOption.quantity}
@@ -29,7 +29,7 @@ const ProductItem = ({ product, addToCart }) => {
         >
           {product.options.map((option) => (
             <MenuItem key={option.quantity} value={option.quantity}>
-              {option.quantity} units - ${option.price} USDT
+              {option.quantity} referrals - ${option.price} USDT
             </MenuItem>
           ))}
         </Select>
