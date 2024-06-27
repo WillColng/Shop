@@ -12,8 +12,8 @@ const Footer = () => {
         Boost your gaming experience with our premium referral services.
       </Typography>
       <Box sx={{ textAlign: 'center', mt: 2 }}>
-        <Link href="https://t.me/Telegram" color="inherit" sx={{ mx: 1 }} target="_blank" rel="noopener noreferrer">
-          Telegram
+        <Link href="https://t.me/tweeps_bot/lnk?startapp=taptaprefs" color="inherit" sx={{ mx: 1 }} target="_blank" rel="noopener noreferrer">
+          Telegram Shop
         </Link>
       </Box>
     </Box>
